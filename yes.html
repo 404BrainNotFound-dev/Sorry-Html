@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thank You, My Love 💖</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  body { 
+    overflow-x: hidden; 
+    background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
+    min-height: 100vh;
+    position: relative;
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 15px;
+    border-radius: 2px;
+    animation: fall linear infinite;
+    opacity: 0.9;
+    z-index: 10;
+  }
+  
+  @keyframes fall {
+    0% { 
+      transform: translateY(-10vh) rotate(0deg); 
+      opacity: 1; 
+    }
+    100% { 
+      transform: translateY(110vh) rotate(720deg); 
+      opacity: 0.2; 
+    }
+  }
+  
+  .love-note {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.85), rgba(255, 240, 245, 0.95));
+    backdrop-filter: blur(10px);
+    border: 3px solid #ffb6c1;
+    box-shadow: 0 10px 40px rgba(255, 105, 180, 0.25);
+    border-radius: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+  }
+  
+  .love-note:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(255, 105, 180, 0.35);
+  }
+  
+  .love-note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #ff6b9d, #ff4081, #e91e63, #ff6b9d);
+    background-size: 300% 100%;
+    animation: gradientBar 8s linear infinite;
+  }
+  
+  @keyframes gradientBar {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  
+  .signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #e91e63;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+  }
+  
+  .signature::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ff4081, transparent);
+  }
+  
+  .floating-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    color: #ff4081;
+    animation: float 6s ease-in-out infinite;
+    z-index: 5;
+    opacity: 0.85;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+  }
+  
+  .love-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: #e91e63;
+    text-align: center;
+    margin: 0.5rem 0;
+    animation: pulseText 2s infinite;
+  }
+  
+  @keyframes pulseText {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+  }
+  
+  .heartbeat {
+    animation: heartbeat 1.3s ease-in-out infinite;
+  }
+  
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+  }
+  
+  .sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 8px 2px rgba(255, 64, 129, 0.8);
+    opacity: 0.8;
+    animation: sparkle 3s infinite;
+  }
+  
+  @keyframes sparkle {
+    0%, 100% { transform: scale(0); opacity: 0.8; }
+    50% { transform: scale(1); opacity: 0; }
+  }
+  
+  .floating {
+    animation: floating 6s ease-in-out infinite;
+  }
+  
+  @keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  
+  .love-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    border: 4px solid transparent;
+    border-image: linear-gradient(45deg, #ff4081, #e91e63, #ff4081) 1;
+    border-radius: 32px;
+    z-index: 20;
+  }
+  
+  .quote-mark {
+    font-size: 5rem;
+    color: rgba(233, 30, 99, 0.2);
+    position: absolute;
+    opacity: 0.7;
+  }
+  
+  .quote-mark.top {
+    top: -30px;
+    left: -20px;
+  }
+  
+  .quote-mark.bottom {
+    bottom: -40px;
+    right: -20px;
+    transform: rotate(180deg);
+  }
+  
+  .pulse-glow {
+    box-shadow: 0 0 20px rgba(255, 64, 129, 0.4);
+    animation: glowPulse 2s infinite;
+  }
+  
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 64, 129, 0.4); }
+    50% { box-shadow: 0 0 30px rgba(255, 64, 129, 0.7); }
+  }
+  
+  @media (max-width: 640px) {
+    .love-text {
+      font-size: 1.5rem;
+    }
+    
+    .signature {
+      font-size: 2rem;
+    }
+    
+    .quote-mark {
+      font-size: 3.5rem;
+    }
+  }
+</style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 text-center overflow-hidden relative">
+
+<div id="confetti-container"></div>
+<div id="sparkle-container"></div>
+
+<!-- Floating hearts in background -->
+<div class="floating-heart" style="top: 10%; left: 10%; animation-delay: 0s;">❤️</div>
+<div class="floating-heart" style="top: 20%; right: 15%; animation-delay: 1s;">💕</div>
+<div class="floating-heart" style="bottom: 15%; left: 20%; animation-delay: 2s;">💖</div>
+<div class="floating-heart" style="bottom: 25%; right: 10%; animation-delay: 3s;">💗</div>
+
+<div class="love-border"></div>
+
+<div class="love-note max-w-4xl w-full mx-4 p-8 md:p-12 relative z-10">
+  <div class="quote-mark top">❝</div>
+  <div class="quote-mark bottom">❞</div>
+  
+  <!-- Thank you header -->
+  <div class="mb-8 relative">
+    <div class="absolute -inset-4 bg-pink-100 rounded-3xl opacity-50 blur-xl"></div>
+    <h1 class="text-4xl md:text-6xl font-bold text-pink-800 relative z-10 mb-4">
+      <i class="fas fa-heart heartbeat text-pink-500 mr-4"></i>
+      Thank you for saying YES!
+      <i class="fas fa-heart heartbeat text-pink-500 ml-4"></i>
+    </h1>
+    <p class="text-3xl md:text-4xl font-bold text-pink-600 mt-2">
+      I love you soooo much! 💖
+    </p>
+  </div>
+
+  <!-- Love note content -->
+  <div class="mb-10 mx-auto max-w-2xl">
+    <div class="relative">
+      <div class="absolute -inset-2 bg-rose-50 rounded-2xl opacity-60 blur-sm"></div>
+      <div class="relative z-10 bg-white bg-opacity-90 rounded-2xl p-6 md:p-8 border-2 border-rose-100">
+        <p class="text-xl md:text-2xl italic text-pink-800 leading-relaxed mb-6 font-light">
+          That hug you gave me... it wasn't just a hug. It was the moment time stood still. 
+          I felt your warmth seep into my soul, your kindness wrapping around my heart like 
+          the softest blanket on a cold winter night. In your arms, I found where I truly belong.
+        </p>
+        
+        <p class="text-xl md:text-2xl italic text-pink-800 leading-relaxed font-light">
+          Every day I thank the stars that brought you into my life. With you, I've discovered 
+          a love so pure and deep that it transforms ordinary moments into magic. Your smile 
+          brightens my darkest days, your laughter is my favorite melody, and your love is the 
+          greatest gift I could ever receive.
+        </p>
+        
+        <p class="text-xl md:text-2xl italic text-pink-800 leading-relaxed mt-6 font-light">
+          I am the luckiest person alive to call you mine. You see the best in me even when 
+          I can't see it myself. You love me with a patience and understanding that makes me 
+          want to be a better person every single day. With you, I am home.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Love text repetition -->
+  <div class="mb-10">
+    <div class="love-text pulse-glow">I love you more than words could ever express</div>
+    <div class="love-text pulse-glow">I love you in the morning sun and under the midnight stars</div>
+    <div class="love-text pulse-glow">I love you in my thoughts, in my dreams, in every heartbeat</div>
+    <div class="love-text pulse-glow">I love you today, tomorrow, and for all our forever</div>
+  </div>
+
+  <!-- Signature -->
+  <div class="mb-8">
+    <div class="signature floating">With all my love, forever and always</div>
+  </div>
+
+  <!-- Final love message -->
+  <div class="mb-6">
+    <p class="text-3xl md:text-5xl font-bold text-pink-700 italic">
+      You are my heart's true home ❤️
+    </p>
+  </div>
+
+  <!-- Decorative hearts -->
+  <div class="flex justify-center gap-4 text-4xl text-pink-500">
+    <div class="heartbeat">💖</div>
+    <div class="heartbeat" style="animation-delay: 0.3s;">💕</div>
+    <div class="heartbeat" style="animation-delay: 0.6s;">💗</div>
+    <div class="heartbeat" style="animation-delay: 0.9s;">💓</div>
+    <div class="heartbeat" style="animation-delay: 1.2s;">💞</div>
+  </div>
+</div>
+
+<!-- Floating "love you" text in background -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none">
+  <div class="absolute top-1/4 left-1/4 text-pink-300 text-6xl font-bold opacity-20" style="transform: rotate(-15deg);">love you</div>
+  <div class="absolute top-1/3 right-1/4 text-pink-300 text-6xl font-bold opacity-20" style="transform: rotate(10deg);">love you</div>
+  <div class="absolute bottom-1/3 left-1/3 text-pink-300 text-6xl font-bold opacity-20" style="transform: rotate(25deg);">love you</div>
+  <div class="absolute bottom-1/4 right-1/3 text-pink-300 text-6xl font-bold opacity-20" style="transform: rotate(-5deg);">love you</div>
+</div>
+
+<script>
+  // Confetti celebration
+  const container = document.getElementById('confetti-container');
+  const colors = ['#ff4081', '#e91e63', '#f06292', '#ec407a', '#d81b60', '#f48fb1', '#f8bbd0', '#ff80ab', '#ff5252', '#ff9ec8'];
+  
+  // Create celebratory confetti
+  for (let i = 0; i < 300; i++) {
+    const piece = document.createElement('div');
+    piece.classList.add('confetti-piece');
+    
+    // Random properties
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const size = Math.random() * 8 + 6;
+    const shape = Math.random() > 0.5 ? 'circle' : 'square';
+    
+    piece.style.backgroundColor = color;
+    piece.style.width = `${size}px`;
+    piece.style.height = `${size * 1.5}px`;
+    piece.style.borderRadius = shape === 'circle' ? '50%' : '2px';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.animationDuration = Math.random() * 3 + 2 + 's';
+    piece.style.animationDelay = Math.random() * 5 + 's';
+    piece.style.opacity = Math.random() * 0.5 + 0.5;
+    
+    container.appendChild(piece);
+  }
+
+  // Sparkle effect
+  const sparkleContainer = document.getElementById('sparkle-container');
+  
+  function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.classList.add('sparkle');
+    
+    // Random position within viewport
+    const posX = Math.random() * window.innerWidth;
+    const posY = Math.random() * window.innerHeight;
+    
+    sparkle.style.left = `${posX}px`;
+    sparkle.style.top = `${posY}px`;
+    
+    sparkleContainer.appendChild(sparkle);
+    
+    // Remove after animation
+    setTimeout(() => {
+      sparkle.remove();
+    }, 3000);
+  }
+  
+  // Create sparkles continuously
+  setInterval(createSparkle, 200);
+  
+  // Create initial sparkles
+  for (let i = 0; i < 50; i++) {
+    setTimeout(createSparkle, i * 100);
+  }
+  
+  // Floating hearts animation
+  function createFloatingHeart() {
+    const hearts = ['❤️', '💕', '💖', '💗', '💓', '💞'];
+    const heart = document.createElement('div');
+    heart.className = 'floating-heart';
+    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    
+    // Random position at bottom of screen
+    const posX = Math.random() * (window.innerWidth - 100) + 50;
+    heart.style.left = `${posX}px`;
+    heart.style.bottom = '0';
+    heart.style.fontSize = `${Math.random() * 2 + 1}rem`;
+    heart.style.zIndex = '5';
+    heart.style.animationDuration = `${Math.random() * 10 + 15}s`;
+    heart.style.opacity = `${Math.random() * 0.5 + 0.3}`;
+    
+    document.body.appendChild(heart);
+    
+    // Remove after animation
+    setTimeout(() => {
+      heart.remove();
+    }, 20000);
+  }
+  
+  // Create floating hearts continuously
+  setInterval(createFloatingHeart, 1000);
+  
+  // Initial hearts
+  for (let i = 0; i < 15; i++) {
+    setTimeout(createFloatingHeart, i * 500);
+  }
+  
+  // Special animation for the love note on load
+  window.addEventListener('load', () => {
+    const loveNote = document.querySelector('.love-note');
+    loveNote.style.opacity = '0';
+    loveNote.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+      loveNote.style.transition = 'all 0.8s ease-out';
+      loveNote.style.opacity = '1';
+      loveNote.style.transform = 'translateY(0)';
+    }, 300);
+  });
+</script>
+
+</body>
+</html>
