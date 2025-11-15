@@ -2,397 +2,224 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Thank You, My Love 💖</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    /* ===== RESPECT USER PREFERENCES ===== */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+    /* ===== PERFORMANCE-FIRST: Disable heavy animations on mobile/touch ===== */
+    @media (hover: none) and (pointer: coarse) {
+      /* Touch devices (phones/tablets): no continuous animations */
+      .confetti-piece,
+      .sparkle,
+      .floating-heart,
+      .bg-love,
+      .love-border,
+      .quote-mark {
+        animation: none !important;
+        display: none !important;
       }
     }
 
-    body { 
-      overflow-x: hidden; 
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    body {
       background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
       min-height: 100vh;
-      position: relative;
       font-family: 'Playfair Display', serif;
       margin: 0;
       padding: 0;
-    }
-    
-    .confetti-piece,
-    .sparkle,
-    .floating-heart,
-    .bg-love {
-      position: absolute;
-      pointer-events: none;
-      will-change: transform, opacity;
+      /* Ensure scrollable */
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .confetti-piece {
-      width: 8px;
-      height: 12px;
-      border-radius: 2px;
-      animation: fall linear forwards;
-      opacity: 0.85;
-      z-index: 10;
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem 1rem;
+      padding-bottom: 2rem;
     }
-    
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0.2; }
-    }
-    
+
     .love-note {
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.85), rgba(255, 240, 245, 0.95));
-      backdrop-filter: blur(10px);
-      border: 3px solid #ffb6c1;
-      box-shadow: 0 10px 40px rgba(255, 105, 180, 0.25);
-      border-radius: 28px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s ease;
-      max-width: 100%;
-      width: min(100%, 800px);
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    
-    .love-note.loaded {
-      opacity: 1 !important;
-      transform: translateY(0) !important;
-    }
-    
-    .love-note:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 50px rgba(255, 105, 180, 0.35);
-    }
-    
-    .love-note::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, #ff6b9d, #ff4081, #e91e63, #ff6b9d);
-      background-size: 300% 100%;
-      animation: gradientBar 8s linear infinite;
-    }
-    
-    @keyframes gradientBar {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-    
-    .signature {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.2rem;
-      color: #e91e63;
-      font-weight: 700;
-      position: relative;
-      display: inline-block;
-      margin-top: 1rem;
-    }
-    
-    .signature::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 0;
+      background: rgba(255, 255, 255, 0.92);
+      border: 2px solid #ffb6c1;
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.2);
+      border-radius: 24px;
       width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #ff4081, transparent);
+      max-width: 700px;
+      padding: 1.5rem;
+      position: relative;
+      margin-top: 1rem;
+      /* Allow content to scroll inside if needed */
+      overflow: hidden;
     }
-    
-    .floating-heart {
-      font-size: 1.4rem;
-      color: #ff4081;
-      animation: float 8s ease-in-out infinite;
-      z-index: 5;
-      opacity: 0.8;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(10deg); }
-    }
-    
-    .love-text {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.6rem;
-      color: #e91e63;
-      text-align: center;
-      margin: 0.5rem 0;
-      animation: pulseText 2.2s infinite;
-    }
-    
-    @keyframes pulseText {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.04); opacity: 0.85; }
-    }
-    
+
+    /* Keep essential animations: heartbeat, pulse (low-cost) */
     .heartbeat {
       animation: heartbeat 1.4s ease-in-out infinite;
     }
-    
+
     @keyframes heartbeat {
-      0% { transform: scale(1); }
-      15% { transform: scale(1.25); }
-      30% { transform: scale(1); }
-      45% { transform: scale(1.25); }
-      70% { transform: scale(1); }
+      0%, 100% { transform: scale(1); }
+      20% { transform: scale(1.15); }
+      40% { transform: scale(1); }
     }
-    
-    .sparkle {
-      width: 6px;
-      height: 6px;
-      background: white;
-      border-radius: 50%;
-      box-shadow: 0 0 6px 1px rgba(255, 64, 129, 0.7);
-      opacity: 0.7;
-      animation: sparkle 2.5s forwards;
+
+    .love-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      color: #e91e63;
+      margin: 0.6rem 0;
+      text-shadow: 0 1px 2px rgba(233, 30, 99, 0.1);
     }
-    
-    @keyframes sparkle {
-      0% { transform: scale(0); opacity: 0.8; }
-      50% { transform: scale(1); opacity: 0.4; }
-      100% { transform: scale(0); opacity: 0; }
+
+    .signature {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: #e91e63;
+      font-weight: 700;
+      margin-top: 1rem;
     }
-    
-    .love-border {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      right: 20px;
-      bottom: 20px;
-      pointer-events: none;
-      border: 3px solid transparent;
-      border-image: linear-gradient(45deg, #ff4081, #e91e63, #ff4081) 1;
-      border-radius: 28px;
-      z-index: 20;
+
+    /* Responsive */
+    @media (min-width: 640px) {
+      .love-note {
+        padding: 2rem;
+      }
+      .love-text { font-size: 1.8rem; }
+      .signature { font-size: 2.5rem; }
     }
-    
-    .quote-mark {
-      font-size: 4rem;
-      color: rgba(233, 30, 99, 0.15);
-      position: absolute;
-      opacity: 0.7;
-      z-index: 0;
-    }
-    
-    .quote-mark.top {
-      top: -20px;
-      left: -10px;
-    }
-    
-    .quote-mark.bottom {
-      bottom: -30px;
-      right: -10px;
-      transform: rotate(180deg);
-    }
-    
-    .pulse-glow {
-      animation: glowPulse 2.2s infinite;
-    }
-    
-    @keyframes glowPulse {
-      0%, 100% { text-shadow: 0 0 10px rgba(255, 64, 129, 0.4); }
-      50% { text-shadow: 0 0 20px rgba(255, 64, 129, 0.7); }
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 640px) {
-      .love-text { font-size: 1.35rem; }
-      .signature { font-size: 1.8rem; }
-      .quote-mark { font-size: 2.8rem; }
-      h1 { font-size: 2.2rem !important; }
-      p.text-3xl { font-size: 1.8rem !important; }
-      .love-note { padding: 1.5rem !important; }
-    }
-    
-    @media (max-width: 480px) {
-      .quote-mark { display: none; }
-      .floating-heart { font-size: 1.2rem; }
-      .love-note { border-radius: 22px; }
+
+    @media (min-width: 768px) {
+      .love-text { font-size: 2rem; }
+      h1 { font-size: 2.8rem !important; }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-3 sm:p-4 text-center overflow-hidden relative">
-
-  <div id="confetti-container"></div>
-  <div id="sparkle-container"></div>
-  <div id="floating-hearts-container"></div>
-
-  <!-- Floating hearts (static, decorative) -->
-  <div class="floating-heart" style="top: 12%; left: 10%; animation-delay: 0s;">❤️</div>
-  <div class="floating-heart" style="top: 22%; right: 15%; animation-delay: 1.5s;">💕</div>
-  <div class="floating-heart" style="bottom: 18%; left: 20%; animation-delay: 2.5s;">💖</div>
-  <div class="floating-heart" style="bottom: 28%; right: 12%; animation-delay: 3.5s;">💗</div>
-
-  <div class="love-border"></div>
-
-  <div class="love-note max-w-4xl w-full mx-2 sm:mx-4 p-6 sm:p-8 md:p-10 relative z-10">
-    <div class="quote-mark top">❝</div>
-    <div class="quote-mark bottom">❞</div>
-    
-    <div class="mb-6 sm:mb-8 relative">
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-pink-800 relative z-10 mb-3">
-        <i class="fas fa-heart heartbeat text-pink-500 mr-3"></i>
+<body>
+  <div class="container">
+    <!-- Main content: scrollable and touch-friendly -->
+    <div class="love-note">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-pink-800 text-center mb-3">
+        <i class="fas fa-heart heartbeat text-pink-500 mr-2 ml-2"></i>
         Thank you for saying YES!
-        <i class="fas fa-heart heartbeat text-pink-500 ml-3"></i>
+        <i class="fas fa-heart heartbeat text-pink-500 mr-2 ml-2"></i>
       </h1>
-      <p class="text-2xl sm:text-3xl font-bold text-pink-600 mt-1">
+      
+      <p class="text-xl sm:text-2xl font-bold text-pink-600 text-center mb-6">
         I love you soooo much! 💖
       </p>
-    </div>
 
-    <div class="mb-8 sm:mb-10 mx-auto max-w-2xl">
-      <div class="relative">
-        <div class="relative z-10 bg-white bg-opacity-95 rounded-xl p-5 sm:p-6 md:p-7 border border-rose-100">
-          <p class="text-base sm:text-lg md:text-xl italic text-pink-800 leading-relaxed mb-5 font-light">
-            That hug you gave me... it wasn't just a hug. It was the moment time stood still. 
-            I felt your warmth seep into my soul, your kindness wrapping around my heart like 
-            the softest blanket on a cold winter night. In your arms, I found where I truly belong.
-          </p>
-          
-          <p class="text-base sm:text-lg md:text-xl italic text-pink-800 leading-relaxed mb-5 font-light">
-            Every day I thank the stars that brought you into my life. With you, I've discovered 
-            a love so pure and deep that it transforms ordinary moments into magic. Your smile 
-            brightens my darkest days, your laughter is my favorite melody, and your love is the 
-            greatest gift I could ever receive.
-          </p>
-          
-          <p class="text-base sm:text-lg md:text-xl italic text-pink-800 leading-relaxed font-light">
-            I am the luckiest person alive to call you mine. You see the best in me even when 
-            I can't see it myself. You love me with a patience and understanding that makes me 
-            want to be a better person every single day. With you, I am home.
-          </p>
-        </div>
+      <div class="space-y-5 mb-8">
+        <p class="text-base sm:text-lg italic text-pink-800 leading-relaxed font-light">
+          That hug you gave me... it wasn't just a hug. It was the moment time stood still. 
+          I felt your warmth seep into my soul, your kindness wrapping around my heart like 
+          the softest blanket on a cold winter night. In your arms, I found where I truly belong.
+        </p>
+        
+        <p class="text-base sm:text-lg italic text-pink-800 leading-relaxed font-light">
+          Every day I thank the stars that brought you into my life. With you, I've discovered 
+          a love so pure and deep that it transforms ordinary moments into magic. Your smile 
+          brightens my darkest days, your laughter is my favorite melody, and your love is the 
+          greatest gift I could ever receive.
+        </p>
+        
+        <p class="text-base sm:text-lg italic text-pink-800 leading-relaxed font-light">
+          I am the luckiest person alive to call you mine. You see the best in me even when 
+          I can't see it myself. You love me with a patience and understanding that makes me 
+          want to be a better person every single day. With you, I am home.
+        </p>
+      </div>
+
+      <div class="mb-6 space-y-3">
+        <div class="love-text">I love you more than words could ever express</div>
+        <div class="love-text">I love you in the morning sun and under the midnight stars</div>
+        <div class="love-text">I love you in my thoughts, in my dreams, in every heartbeat</div>
+        <div class="love-text">I love you today, tomorrow, and for all our forever</div>
+      </div>
+
+      <div class="text-center mb-6">
+        <div class="signature">With all my love, forever and always</div>
+      </div>
+
+      <p class="text-xl sm:text-2xl md:text-3xl font-bold text-pink-700 italic text-center mb-5">
+        You are my heart's true home ❤️
+      </p>
+
+      <div class="flex justify-center gap-3 text-2xl sm:text-3xl text-pink-500">
+        <div class="heartbeat">💖</div>
+        <div class="heartbeat">💕</div>
+        <div class="heartbeat">💗</div>
+        <div class="heartbeat">💓</div>
+        <div class="heartbeat">💞</div>
       </div>
     </div>
 
-    <div class="mb-8">
-      <div class="love-text pulse-glow">I love you more than words could ever express</div>
-      <div class="love-text pulse-glow">I love you in the morning sun and under the midnight stars</div>
-      <div class="love-text pulse-glow">I love you in my thoughts, in my dreams, in every heartbeat</div>
-      <div class="love-text pulse-glow">I love you today, tomorrow, and for all our forever</div>
-    </div>
-
-    <div class="mb-6">
-      <div class="signature">With all my love, forever and always</div>
-    </div>
-
-    <div class="mb-6">
-      <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-pink-700 italic">
-        You are my heart's true home ❤️
-      </p>
-    </div>
-
-    <div class="flex justify-center gap-3 text-2xl sm:text-3xl text-pink-500">
-      <div class="heartbeat">💖</div>
-      <div class="heartbeat" style="animation-delay: 0.3s;">💕</div>
-      <div class="heartbeat" style="animation-delay: 0.6s;">💗</div>
-      <div class="heartbeat" style="animation-delay: 0.9s;">💓</div>
-      <div class="heartbeat" style="animation-delay: 1.2s;">💞</div>
-    </div>
+    <p class="mt-6 text-pink-600 italic text-sm text-center max-w-md">
+      <i class="fas fa-paw mr-1"></i> Made with love, and now running smoothly on your phone too 💕
+    </p>
   </div>
 
-  <!-- Background "love you" text -->
-  <div class="fixed inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-1/4 left-1/4 text-pink-200 text-4xl sm:text-5xl font-bold opacity-20" style="transform: rotate(-15deg);">love you</div>
-    <div class="absolute top-1/3 right-1/4 text-pink-200 text-4xl sm:text-5xl font-bold opacity-20" style="transform: rotate(10deg);">love you</div>
-    <div class="absolute bottom-1/3 left-1/3 text-pink-200 text-4xl sm:text-5xl font-bold opacity-20" style="transform: rotate(25deg);">love you</div>
-    <div class="absolute bottom-1/4 right-1/3 text-pink-200 text-4xl sm:text-5xl font-bold opacity-20" style="transform: rotate(-5deg);">love you</div>
-  </div>
-
+  <!-- Minimal confetti: one-time burst on load (only on non-mobile or if hover supported) -->
   <script>
-    // Performance & device detection
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // Only run animations if device supports hover (i.e., not touch-first)
+    const isTouchDevice = !window.matchMedia('(hover: hover)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    // Reduce effects on mobile or low motion
-    const confettiCount = (isMobile || prefersReducedMotion) ? 120 : 220;
-    const sparkleRate = prefersReducedMotion ? 1000 : (isMobile ? 600 : 300);
-    const heartRate = prefersReducedMotion ? 5000 : (isMobile ? 2000 : 1000);
 
-    // Confetti
-    const container = document.getElementById('confetti-container');
-    const colors = ['#ff4081', '#e91e63', '#f06292', '#ec407a', '#d81b60', '#f48fb1', '#ff80ab', '#ff5252'];
-    
-    for (let i = 0; i < confettiCount; i++) {
-      const piece = document.createElement('div');
-      piece.classList.add('confetti-piece');
-      
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const size = Math.random() * 6 + 4;
-      const isCircle = Math.random() > 0.6;
-      
-      piece.style.backgroundColor = color;
-      piece.style.width = `${size}px`;
-      piece.style.height = `${size * 1.5}px`;
-      piece.style.borderRadius = isCircle ? '50%' : '2px';
-      piece.style.left = `${Math.random() * 100}vw`;
-      piece.style.animationDuration = `${Math.random() * 3 + 2}s`;
-      piece.style.animationDelay = `${Math.random() * 5}s`;
-      
-      container.appendChild(piece);
-    }
+    if (!isTouchDevice && !prefersReducedMotion) {
+      // Create a light confetti burst (max 80 pieces)
+      const container = document.createElement('div');
+      container.id = 'confetti-container';
+      container.style.position = 'fixed';
+      container.style.top = '0';
+      container.style.left = '0';
+      container.style.width = '100%';
+      container.style.height = '100%';
+      container.style.pointerEvents = 'none';
+      container.style.zIndex = '1000';
+      document.body.appendChild(container);
 
-    // Sparkles
-    const sparkleContainer = document.getElementById('sparkle-container');
-    function createSparkle() {
-      if (prefersReducedMotion) return;
-      const sparkle = document.createElement('div');
-      sparkle.className = 'sparkle';
-      sparkle.style.left = `${Math.random() * window.innerWidth}px`;
-      sparkle.style.top = `${Math.random() * window.innerHeight}px`;
-      sparkleContainer.appendChild(sparkle);
-      setTimeout(() => sparkle.remove(), 2500);
-    }
-    
-    if (!prefersReducedMotion) {
-      for (let i = 0; i < 30; i++) setTimeout(createSparkle, i * 150);
-      setInterval(createSparkle, sparkleRate);
-    }
+      const colors = ['#ff4081', '#e91e63', '#f06292', '#ec407a', '#ff80ab'];
+      for (let i = 0; i < 80; i++) {
+        const piece = document.createElement('div');
+        piece.style.position = 'absolute';
+        piece.style.width = `${Math.random() * 6 + 4}px`;
+        piece.style.height = `${Math.random() * 8 + 6}px`;
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.7 ? '50%' : '2px';
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.top = '-20px';
+        piece.style.opacity = Math.random() * 0.7 + 0.3;
+        piece.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+        container.appendChild(piece);
+      }
 
-    // Floating hearts (dynamic)
-    const heartsContainer = document.getElementById('floating-hearts-container');
-    const hearts = ['❤️', '💕', '💖', '💗', '💓', '💞'];
-    
-    function createFloatingHeart() {
-      if (prefersReducedMotion) return;
-      const heart = document.createElement('div');
-      heart.className = 'floating-heart';
-      heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-      heart.style.left = `${Math.random() * (window.innerWidth - 80) + 40}px`;
-      heart.style.bottom = '-50px';
-      heart.style.fontSize = `${Math.random() * 1.2 + 1}rem`;
-      heart.style.animation = `float ${Math.random() * 8 + 12}s ease-in-out forwards`;
-      heart.style.opacity = `${Math.random() * 0.4 + 0.3}`;
-      heartsContainer.appendChild(heart);
-      setTimeout(() => heart.remove(), 15000);
-    }
-    
-    if (!prefersReducedMotion) {
-      for (let i = 0; i < 8; i++) setTimeout(createFloatingHeart, i * 800);
-      setInterval(createFloatingHeart, heartRate);
-    }
+      // Add keyframes dynamically (only if needed)
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fall {
+          to { transform: translateY(110vh) rotate(${360 * (Math.random() > 0.5 ? 1 : -1)}deg); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
 
-    // Smooth entrance for love note
-    window.addEventListener('load', () => {
+      // Auto-remove after animation
       setTimeout(() => {
-        document.querySelector('.love-note').classList.add('loaded');
-      }, 300);
-    });
+        container.remove();
+        style.remove();
+      }, 5000);
+    }
   </script>
-
 </body>
 </html>
