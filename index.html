@@ -1,496 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Love Confetti Page</title>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-  body { 
-    overflow-x: hidden; 
-    background: linear-gradient(135deg, #f9f2f4 0%, #fce4ec 100%);
-    min-height: 100vh;
-    position: relative;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .confetti-piece {
-    position: absolute;
-    width: 10px;
-    height: 15px;
-    border-radius: 2px;
-    animation: fall linear infinite;
-    opacity: 0.9;
-  }
-  
-  @keyframes fall {
-    0% { 
-      transform: translateY(-10vh) rotate(0deg); 
-      opacity: 1; 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Love Confetti Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== RESPECT USER PREFERENCES ===== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
-    100% { 
-      transform: translateY(110vh) rotate(720deg); 
-      opacity: 0.2; 
+
+    body { 
+      overflow-x: hidden; 
+      background: linear-gradient(135deg, #f9f2f4 0%, #fce4ec 100%);
+      min-height: 100vh;
+      position: relative;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
     }
-  }
-  
-  .message-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border: 3px solid #ff80ab;
-    box-shadow: 0 10px 30px rgba(244, 143, 177, 0.35);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .message-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-    transform: rotate(30deg);
-  }
-  
-  .message-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(244, 143, 177, 0.45);
-  }
-  
-  .reconsider-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(5px);
-  }
-  
-  .modal-content {
-    background: linear-gradient(145deg, #fff9fb, #ffeef3);
-    border: 4px solid #ff4081;
-    border-radius: 28px;
-    padding: 2.5rem;
-    max-width: 90%;
-    width: 550px;
-    text-align: center;
-    box-shadow: 0 15px 50px rgba(255, 64, 129, 0.6);
-    position: relative;
-    animation: modalPop 0.4s ease-out;
-    overflow: hidden;
-  }
-  
-  .modal-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 8px;
-    background: linear-gradient(90deg, #ff4081, #e91e63, #ff4081);
-    background-size: 200% 100%;
-    animation: gradientBar 3s linear infinite;
-  }
-  
-  @keyframes gradientBar {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-  }
-  
-  @keyframes modalPop {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  
-  .heart-icon {
-    animation: heartbeat 1.3s ease-in-out infinite;
-  }
-  
-  @keyframes heartbeat {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.3); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.3); }
-    70% { transform: scale(1); }
-  }
-  
-  .btn-yes {
-    background: linear-gradient(45deg, #ff4081, #e91e63);
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .btn-yes:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
-    background: linear-gradient(45deg, #ff1744, #d81b60);
-  }
-  
-  .btn-yes::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 20px;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: rotate(25deg);
-    transition: all 0.6s;
-  }
-  
-  .btn-yes:hover::after {
-    left: 120%;
-  }
-  
-  .btn-no {
-    background: linear-gradient(45deg, #7b1fa2, #9c27b0);
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(123, 31, 162, 0.4);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .btn-no:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(123, 31, 162, 0.6);
-    background: linear-gradient(45deg, #6a1b9a, #7b1fa2);
-  }
-  
-  .btn-no::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 20px;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: rotate(25deg);
-    transition: all 0.6s;
-  }
-  
-  .btn-no:hover::after {
-    left: 120%;
-  }
-  
-  .floating {
-    animation: floating 3s ease-in-out infinite;
-  }
-  
-  @keyframes floating {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-  }
-  
-  .teardrop {
-    position: absolute;
-    width: 8px;
-    height: 12px;
-    background: #9c27b0;
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(-45deg);
-    opacity: 0.7;
-    animation: fall linear infinite;
-  }
-  
-  @keyframes fall {
-    0% { transform: translateY(-10vh) rotate(-45deg); opacity: 0.7; }
-    100% { transform: translateY(110vh) rotate(-45deg); opacity: 0; }
-  }
-  
-  .pulse {
-    animation: pulse 2s infinite;
-  }
-  
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.4); }
-    70% { box-shadow: 0 0 0 12px rgba(255, 64, 129, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0); }
-  }
-  
-  .shake {
-    animation: shake 0.5s;
-  }
-  
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
-  }
-  
-  .apology-counter {
-    display: inline-block;
-    min-width: 28px;
-    height: 28px;
-    background: #ff4081;
-    color: white;
-    border-radius: 50%;
-    font-weight: bold;
-    line-height: 28px;
-    margin: 0 4px;
-  }
-</style>
+    
+    .confetti-piece,
+    .teardrop {
+      position: absolute;
+      top: -20px;
+      will-change: transform, opacity;
+    }
+
+    .confetti-piece {
+      width: 8px;
+      height: 12px;
+      border-radius: 2px;
+      animation: fall linear infinite;
+      opacity: 0.85;
+    }
+    
+    /* ===== SINGLE UNIFIED FALL ANIMATION (FIXED DUPLICATION) ===== */
+    @keyframes fall {
+      0% { 
+        transform: translateY(-10vh) rotate(0deg); 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translateY(110vh) rotate(720deg); 
+        opacity: 0.2; 
+      }
+    }
+    
+    .message-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 3px solid #ff80ab;
+      box-shadow: 0 10px 30px rgba(244, 143, 177, 0.35);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+      width: min(100%, 600px);
+    }
+    
+    .message-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(30deg);
+    }
+    
+    .message-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(244, 143, 177, 0.45);
+    }
+    
+    .reconsider-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+      background: linear-gradient(145deg, #fff9fb, #ffeef3);
+      border: 4px solid #ff4081;
+      border-radius: 28px;
+      padding: 2rem;
+      max-width: 95%;
+      width: min(100%, 550px);
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(255, 64, 129, 0.6);
+      position: relative;
+      animation: modalPop 0.4s ease-out;
+      overflow: hidden;
+    }
+    
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, #ff4081, #e91e63, #ff4081);
+      background-size: 200% 100%;
+      animation: gradientBar 3s linear infinite;
+    }
+    
+    @keyframes gradientBar {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    
+    @keyframes modalPop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .heart-icon {
+      animation: heartbeat 1.3s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.3); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.3); }
+      70% { transform: scale(1); }
+    }
+    
+    .btn-yes {
+      background: linear-gradient(45deg, #ff4081, #e91e63);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-yes:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
+      background: linear-gradient(45deg, #ff1744, #d81b60);
+    }
+    
+    .btn-yes::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 20px;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(25deg);
+      transition: all 0.6s;
+    }
+    
+    .btn-yes:hover::after {
+      left: 120%;
+    }
+    
+    .btn-no {
+      background: linear-gradient(45deg, #7b1fa2, #9c27b0);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(123, 31, 162, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-no:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(123, 31, 162, 0.6);
+      background: linear-gradient(45deg, #6a1b9a, #7b1fa2);
+    }
+    
+    .btn-no::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 20px;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(25deg);
+      transition: all 0.6s;
+    }
+    
+    .btn-no:hover::after {
+      left: 120%;
+    }
+    
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    .teardrop {
+      width: 6px;
+      height: 10px;
+      background: #9c27b0;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      opacity: 0.7;
+      animation: fall linear infinite;
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.4); }
+      70% { box-shadow: 0 0 0 12px rgba(255, 64, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0); }
+    }
+    
+    .shake {
+      animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    
+    .apology-counter {
+      display: inline-block;
+      min-width: 28px;
+      height: 28px;
+      background: #ff4081;
+      color: white;
+      border-radius: 50%;
+      font-weight: bold;
+      line-height: 28px;
+      margin: 0 4px;
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 text-center overflow-hidden">
+<body class="min-h-screen flex flex-col items-center justify-center p-3 sm:p-4 md:p-6 text-center overflow-hidden">
 
-<div id="confetti-container"></div>
-<div id="teardrop-container"></div>
+  <div id="confetti-container"></div>
+  <div id="teardrop-container"></div>
 
-<div class="message-card rounded-3xl p-6 md:p-10 max-w-3xl text-center mb-8 md:mb-12 relative">
-  <div class="mb-6 relative inline-block">
-    <div class="absolute -inset-3 bg-pink-200 rounded-full opacity-60 animate-ping"></div>
-    <div class="absolute -inset-1 bg-pink-300 rounded-full opacity-30 animate-pulse"></div>
-    <img src="heart.png" alt="Heart" class="mx-auto w-28 h-28 relative z-10 floating">
-  </div>
-
-  <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-pink-800 mb-6 px-4">
-    <i class="fas fa-heart heart-icon text-pink-500 mr-3"></i>
-    If you've seen this, it means you hugged me and I'm truly happy
-    <i class="fas fa-heart heart-icon text-pink-500 ml-3"></i>
-  </h1>
-
-  <p class="text-lg md:text-xl text-pink-700 max-w-2xl mb-6 leading-relaxed px-4">
-    😔 I know you didn't like that hug, and I'm really sorry for that. Still, I'm deeply grateful 🙏 for your warmth. 
-    It meant more to me than I can express. 
-    <span class="font-bold text-pink-600 text-2xl">I love you!</span>
-  </p>
-
-  <p class="text-base md:text-lg text-pink-600 max-w-xl mb-10 italic px-4">
-    📝 You can write more things here if you'd like. But just knowing you saw this already fills my heart with warmth and joy 🌸✨
-  </p>
-
-  <div class="flex flex-col sm:flex-row gap-6 justify-center mt-8">
-    <button id="yes" class="btn-yes px-10 py-4 text-white font-bold rounded-full text-xl shadow-xl transform transition-transform hover:scale-105">
-      <i class="fas fa-smile-beam mr-3 text-yellow-200"></i> YES, I FORGIVE YOU!
-    </button>
-    <button id="no" class="btn-no px-10 py-4 text-white font-bold rounded-full text-xl shadow-xl transform transition-transform hover:scale-105">
-      <i class="fas fa-frown mr-3"></i> NO, I'M ANGRY!
-    </button>
-  </div>
-  
-  <div class="mt-12 pt-6 border-t-2 border-pink-200">
-    <p class="text-pink-500 italic text-sm">
-      <i class="fas fa-paw mr-1 text-pink-400"></i> Made with infinite love and confetti for my special person
-    </p>
-  </div>
-</div>
-
-<!-- Reconsideration Modal -->
-<div id="reconsider-modal" class="reconsider-modal">
-  <div class="modal-content pulse">
-    <div class="mb-6">
-      <div class="relative inline-block">
-        <i class="fas fa-heart-broken text-pink-400 text-7xl mb-4 animate-bounce"></i>
-        <div class="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-xs font-bold border-2 border-white">
-          <span id="apology-count">1</span>
-        </div>
+  <div class="message-card rounded-3xl p-5 sm:p-8 md:p-10 text-center mb-6 md:mb-10 relative">
+    <div class="mb-5 relative inline-block">
+      <div class="absolute -inset-2.5 bg-pink-200 rounded-full opacity-60 animate-ping"></div>
+      <div class="absolute -inset-0.5 bg-pink-300 rounded-full opacity-30 animate-pulse"></div>
+      <!-- Replace with real image or emoji if heart.png missing -->
+      <div class="mx-auto w-24 h-24 sm:w-28 sm:h-28 relative z-10 floating flex items-center justify-center text-pink-500 text-5xl">
+        ❤️
       </div>
-      <h2 class="text-3xl font-bold text-pink-700 mb-3">I'm so sorry, my pookie! 💔</h2>
-      <p class="text-xl text-pink-800 mb-2" id="apology-message">
-        Please reconsider? Your happiness means everything to me.
-      </p>
-      <p class="text-lg text-purple-700 italic mb-6">
-        <i class="fas fa-hand-holding-heart mr-2"></i>
-        I'll keep apologizing until you forgive me because I love you too much to let you go
-      </p>
+    </div>
+
+    <h1 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-extrabold text-pink-800 mb-4 sm:mb-6 px-2 sm:px-4">
+      <i class="fas fa-heart heart-icon text-pink-500 mr-2 sm:mr-3"></i>
+      If you've seen this, it means you hugged me and I'm truly happy
+      <i class="fas fa-heart heart-icon text-pink-500 ml-2 sm:ml-3"></i>
+    </h1>
+
+    <p class="text-base sm:text-lg md:text-xl text-pink-700 max-w-2xl mb-4 sm:mb-6 leading-relaxed px-2 sm:px-4">
+      😔 I know you didn't like that hug, and I'm really sorry for that. Still, I'm deeply grateful 🙏 for your warmth. 
+      It meant more to me than I can express. 
+      <span class="font-bold text-pink-600 text-xl sm:text-2xl">I love you!</span>
+    </p>
+
+    <p class="text-sm sm:text-base md:text-lg text-pink-600 max-w-xl mb-6 sm:mb-8 italic px-2 sm:px-4">
+      📝 You can write more things here if you'd like. But just knowing you saw this already fills my heart with warmth and joy 🌸✨
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mt-6 sm:mt-8">
+      <button id="yes" class="btn-yes px-6 sm:px-10 py-3 sm:py-4 text-white font-bold rounded-full text-base sm:text-xl shadow-xl transform transition-transform hover:scale-105">
+        <i class="fas fa-smile-beam mr-2 sm:mr-3 text-yellow-200"></i> YES, I FORGIVE YOU!
+      </button>
+      <button id="no" class="btn-no px-6 sm:px-10 py-3 sm:py-4 text-white font-bold rounded-full text-base sm:text-xl shadow-xl transform transition-transform hover:scale-105">
+        <i class="fas fa-frown mr-2 sm:mr-3"></i> NO, I'M ANGRY!
+      </button>
     </div>
     
-    <div class="flex flex-col sm:flex-row gap-5 justify-center mt-6">
-      <button id="modal-yes" class="btn-yes px-8 py-4 text-white font-bold rounded-full text-xl shadow-lg transform transition-transform hover:scale-105">
-        <i class="fas fa-heart mr-2 text-red-200"></i> YES, I FORGIVE YOU
-      </button>
-      <button id="modal-no" class="btn-no px-8 py-4 text-white font-bold rounded-full text-xl shadow-lg transform transition-transform hover:scale-105">
-        <i class="fas fa-times-circle mr-2"></i> NO, TRY AGAIN
-      </button>
-    </div>
-    
-    <div class="mt-8 pt-6 border-t-2 border-pink-100 text-pink-600">
-      <p class="text-sm italic">
-        <i class="fas fa-exclamation-triangle mr-2 text-yellow-500"></i>
-        This message will keep appearing until you say YES because my love for you is endless ❤️
+    <div class="mt-8 pt-4 sm:pt-6 border-t-2 border-pink-200">
+      <p class="text-pink-500 italic text-xs sm:text-sm">
+        <i class="fas fa-paw mr-1 text-pink-400"></i> Made with infinite love and confetti for my special person
       </p>
     </div>
   </div>
-</div>
 
-<script>
-  // Confetti effect
-  const container = document.getElementById('confetti-container');
-  const colors = ['#ff4081', '#e91e63', '#f06292', '#ec407a', '#d81b60', '#f48fb1', '#f8bbd0', '#ff80ab', '#ff5252'];
-  
-  for (let i = 0; i < 200; i++) {
-    const piece = document.createElement('div');
-    piece.classList.add('confetti-piece');
-    
-    // Random properties
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const size = Math.random() * 8 + 6;
-    const shape = Math.random() > 0.5 ? 'circle' : 'square';
-    
-    piece.style.backgroundColor = color;
-    piece.style.width = `${size}px`;
-    piece.style.height = `${size * 1.5}px`;
-    piece.style.borderRadius = shape === 'circle' ? '50%' : '2px';
-    piece.style.left = Math.random() * 100 + 'vw';
-    piece.style.animationDuration = Math.random() * 3 + 2 + 's';
-    piece.style.animationDelay = Math.random() * 5 + 's';
-    piece.style.opacity = Math.random() * 0.5 + 0.5;
-    
-    container.appendChild(piece);
-  }
+  <!-- Reconsideration Modal -->
+  <div id="reconsider-modal" class="reconsider-modal">
+    <div class="modal-content pulse">
+      <div class="mb-5 sm:mb-6">
+        <div class="relative inline-block">
+          <i class="fas fa-heart-broken text-pink-400 text-5xl sm:text-7xl mb-3 sm:mb-4 animate-bounce"></i>
+          <div class="absolute -top-1.5 -right-1.5 sm:-top-2 sm:-right-2 bg-pink-500 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-xs sm:text-sm font-bold border-2 border-white">
+            <span id="apology-count">1</span>
+          </div>
+        </div>
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-pink-700 mb-2 sm:mb-3">I'm so sorry, my pookie! 💔</h2>
+        <p class="text-base sm:text-lg md:text-xl text-pink-800 mb-2" id="apology-message">
+          Please reconsider? Your happiness means everything to me.
+        </p>
+        <p class="text-sm sm:text-base text-purple-700 italic mb-4 sm:mb-6">
+          <i class="fas fa-hand-holding-heart mr-2"></i>
+          I'll keep apologizing until you forgive me because I love you too much to let you go
+        </p>
+      </div>
+      
+      <div class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center mt-5 sm:mt-6">
+        <button id="modal-yes" class="btn-yes px-6 sm:px-8 py-3 sm:py-4 text-white font-bold rounded-full text-base sm:text-xl shadow-lg transform transition-transform hover:scale-105">
+          <i class="fas fa-heart mr-2 text-red-200"></i> YES, I FORGIVE YOU
+        </button>
+        <button id="modal-no" class="btn-no px-6 sm:px-8 py-3 sm:py-4 text-white font-bold rounded-full text-base sm:text-xl shadow-lg transform transition-transform hover:scale-105">
+          <i class="fas fa-times-circle mr-2"></i> NO, TRY AGAIN
+        </button>
+      </div>
+      
+      <div class="mt-6 pt-4 sm:pt-6 border-t-2 border-pink-100 text-pink-600">
+        <p class="text-xs sm:text-sm italic">
+          <i class="fas fa-exclamation-triangle mr-2 text-yellow-500"></i>
+          This message will keep appearing until you say YES because my love for you is endless ❤️
+        </p>
+      </div>
+    </div>
+  </div>
 
-  // Teardrop effect for the modal
-  const teardropContainer = document.getElementById('teardrop-container');
-  
-  function createTeardrops() {
-    if (document.getElementById('reconsider-modal').style.display === 'flex') {
-      for (let i = 0; i < 3; i++) {
+  <script>
+    // Detect mobile and reduced motion
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Confetti: fewer on mobile
+    const confettiCount = (isMobile || prefersReducedMotion) ? 60 : 200;
+    const container = document.getElementById('confetti-container');
+    const colors = ['#ff4081', '#e91e63', '#f06292', '#ec407a', '#d81b60', '#f48fb1', '#f8bbd0', '#ff80ab', '#ff5252'];
+    
+    for (let i = 0; i < confettiCount; i++) {
+      const piece = document.createElement('div');
+      piece.classList.add('confetti-piece');
+      
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const size = Math.random() * 6 + 4;
+      const shape = Math.random() > 0.5 ? 'circle' : 'square';
+      
+      piece.style.backgroundColor = color;
+      piece.style.width = `${size}px`;
+      piece.style.height = `${size * 1.5}px`;
+      piece.style.borderRadius = shape === 'circle' ? '50%' : '2px';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.animationDuration = Math.random() * 3 + 2 + 's';
+      piece.style.animationDelay = Math.random() * 5 + 's';
+      piece.style.opacity = Math.random() * 0.5 + 0.5;
+      
+      container.appendChild(piece);
+    }
+
+    const teardropContainer = document.getElementById('teardrop-container');
+    let teardropInterval;
+
+    function createTeardrops() {
+      if (document.getElementById('reconsider-modal').style.display !== 'flex') return;
+      const dropCount = isMobile ? 1 : 2;
+      for (let i = 0; i < dropCount; i++) {
         setTimeout(() => {
           const drop = document.createElement('div');
           drop.classList.add('teardrop');
           drop.style.left = (Math.random() * 80 + 10) + 'vw';
           drop.style.animationDuration = (Math.random() * 2 + 3) + 's';
           teardropContainer.appendChild(drop);
-          
-          // Remove after animation
-          setTimeout(() => {
-            drop.remove();
-          }, 5000);
+          setTimeout(() => drop.remove(), 5000);
         }, i * 500);
       }
     }
-  }
 
-  // Apology messages that get progressively more earnest
-  const apologyMessages = [
-    "Please reconsider? Your happiness means everything to me.",
-    "I know I messed up, but I love you more than words can say. Please forgive me?",
-    "My heart breaks when I see you upset. Can I make it right?",
-    "I promise to be more careful with your feelings. One more chance?",
-    "You mean the world to me. I can't imagine my life without your smile.",
-    "I'll do anything to see you happy again. Please forgive me?",
-    "I'm down on my knees begging for your forgiveness. You're my everything.",
-    "My love for you is infinite... but my heart can't take much more of this! 😭",
-    "I'll keep apologizing until my last breath because you deserve all my love.",
-    "You can't escape my love! I'll keep asking until you say yes! ❤️🔥",
-    "Okay, last try I promise... please? I'll be your forever pookie! 🐻💕",
-    "If you say no one more time, I'll... I'll... send you 1000 virtual hugs! 🤗💖",
-    "My heart is yours to keep. Please don't break it again? 💔",
-    "I'd cross oceans and move mountains just to see you smile again. Please forgive me?",
-    "No matter how many times you say no, my love for you will never fade. ❤️✨"
-  ];
+    const apologyMessages = [
+      "Please reconsider? Your happiness means everything to me.",
+      "I know I messed up, but I love you more than words can say. Please forgive me?",
+      "My heart breaks when I see you upset. Can I make it right?",
+      "I promise to be more careful with your feelings. One more chance?",
+      "You mean the world to me. I can't imagine my life without your smile.",
+      "I'll do anything to see you happy again. Please forgive me?",
+      "I'm down on my knees begging for your forgiveness. You're my everything.",
+      "My love for you is infinite... but my heart can't take much more of this! 😭",
+      "I'll keep apologizing until my last breath because you deserve all my love.",
+      "You can't escape my love! I'll keep asking until you say yes! ❤️🔥",
+      "Okay, last try I promise... please? I'll be your forever pookie! 🐻💕",
+      "If you say no one more time, I'll... I'll... send you 1000 virtual hugs! 🤗💖",
+      "My heart is yours to keep. Please don't break it again? 💔",
+      "I'd cross oceans and move mountains just to see you smile again. Please forgive me?",
+      "No matter how many times you say no, my love for you will never fade. ❤️✨"
+    ];
 
-  // Main YES button - redirect to yes.html
-  document.getElementById('yes').onclick = () => {
-    window.location.href = 'yes.html';
-  };
+    document.getElementById('yes').onclick = () => {
+      window.location.href = 'yes.html';
+    };
 
-  // Main NO button - show modal
-  document.getElementById('no').onclick = () => {
-    showApologyModal(1);
-  };
-  
-  // Modal YES button - redirect to yes.html
-  document.getElementById('modal-yes').onclick = () => {
-    window.location.href = 'yes.html';
-  };
-  
-  // Modal NO button - show next apology message
-  document.getElementById('modal-no').onclick = () => {
-    const currentCount = parseInt(document.getElementById('apology-count').textContent);
-    const nextCount = currentCount + 1;
-    showApologyModal(nextCount);
+    document.getElementById('no').onclick = () => {
+      showApologyModal(1);
+    };
     
-    // Add shake effect to modal on rejection
-    document.querySelector('.modal-content').classList.add('shake');
-    setTimeout(() => {
-      document.querySelector('.modal-content').classList.remove('shake');
-    }, 500);
-  };
-  
-  // Function to show apology modal with specific message
-  function showApologyModal(count) {
-    const modal = document.getElementById('reconsider-modal');
-    const countElement = document.getElementById('apology-count');
-    const messageElement = document.getElementById('apology-message');
+    document.getElementById('modal-yes').onclick = () => {
+      window.location.href = 'yes.html';
+    };
     
-    // Update counter
-    countElement.textContent = count;
-    
-    // Update message based on count, cycling through messages
-    const messageIndex = (count - 1) % apologyMessages.length;
-    messageElement.textContent = apologyMessages[messageIndex];
-    
-    // Show modal
-    modal.style.display = 'flex';
-    
-    // Create teardrops effect
-    createTeardrops();
-    setInterval(createTeardrops, 3000);
-    
-    // Add to body to prevent scrolling
-    document.body.style.overflow = 'hidden';
-  }
-  
-  // Prevent closing modal by clicking outside
-  document.getElementById('reconsider-modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      e.stopPropagation();
-      // Don't close the modal when clicking outside
-      // Instead, gently remind the user
-      const content = document.querySelector('.modal-content');
-      content.classList.add('shake');
+    document.getElementById('modal-no').onclick = () => {
+      const currentCount = parseInt(document.getElementById('apology-count').textContent);
+      const nextCount = currentCount + 1;
+      showApologyModal(nextCount);
+      
+      document.querySelector('.modal-content').classList.add('shake');
       setTimeout(() => {
-        content.classList.remove('shake');
+        document.querySelector('.modal-content').classList.remove('shake');
       }, 500);
+    };
+    
+    function showApologyModal(count) {
+      const modal = document.getElementById('reconsider-modal');
+      const countElement = document.getElementById('apology-count');
+      const messageElement = document.getElementById('apology-message');
       
-      // Add a small teardrop effect
-      const drop = document.createElement('div');
-      drop.classList.add('teardrop');
-      drop.style.left = '50%';
-      drop.style.top = '20%';
-      drop.style.animationDuration = '2s';
-      teardropContainer.appendChild(drop);
+      countElement.textContent = count;
+      const messageIndex = (count - 1) % apologyMessages.length;
+      messageElement.textContent = apologyMessages[messageIndex];
       
-      setTimeout(() => {
-        drop.remove();
-      }, 2000);
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      if (!teardropInterval) {
+        createTeardrops();
+        teardropInterval = setInterval(createTeardrops, isMobile ? 4000 : 3000);
+      }
     }
-  });
-  
-  // Disable browser back button when modal is open
-  window.addEventListener('popstate', function(event) {
-    if (document.getElementById('reconsider-modal').style.display === 'flex') {
-      event.preventDefault();
-      history.pushState(null, document.title, location.href);
-    }
-  });
-  
-  // Initialize history state to prevent back button
-  history.pushState(null, null, location.href);
-  window.addEventListener('popstate', function(event) {
+    
+    document.getElementById('reconsider-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        e.stopPropagation();
+        const content = document.querySelector('.modal-content');
+        content.classList.add('shake');
+        setTimeout(() => content.classList.remove('shake'), 500);
+        
+        const drop = document.createElement('div');
+        drop.classList.add('teardrop');
+        drop.style.left = '50%';
+        drop.style.top = '20%';
+        drop.style.animationDuration = '2s';
+        teardropContainer.appendChild(drop);
+        setTimeout(() => drop.remove(), 2000);
+      }
+    });
+    
+    // Prevent back navigation
     history.pushState(null, null, location.href);
-  });
+    window.addEventListener('popstate', function() {
+      history.pushState(null, null, location.href);
+    });
 
-  // Special effect for the message card
-  document.querySelector('.message-card').addEventListener('mouseenter', function() {
-    this.classList.add('pulse');
-  });
-  
-  document.querySelector('.message-card').addEventListener('mouseleave', function() {
-    this.classList.remove('pulse');
-  });
-</script>
+    // Portrait orientation hint for mobile
+    if (isMobile) {
+      window.addEventListener('orientationchange', () => {
+        if (Math.abs(window.orientation) === 90) {
+          const hint = document.createElement('div');
+          hint.innerHTML = `
+            <div class="fixed inset-0 bg-black bg-opacity-70 z-[2000] flex items-center justify-center p-4">
+              <div class="bg-white rounded-xl p-5 text-center max-w-xs">
+                <i class="fas fa-mobile-alt text-3xl mb-3 text-pink-500"></i>
+                <p class="text-sm font-semibold text-gray-800">For the best experience,<br>please use <strong>portrait mode</strong>!</p>
+              </div>
+            </div>`;
+          document.body.appendChild(hint);
+          setTimeout(() => hint.remove(), 2500);
+        }
+      });
+    }
+  </script>
 
 </body>
 </html>
